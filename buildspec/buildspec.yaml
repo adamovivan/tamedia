@@ -5,7 +5,7 @@ phases:
     commands:
       - ECR_URI=public.ecr.aws/b0h3o2a4/tamedia
       - REPOSITORY_URI=$ECR_URI/myapp
-      - docker login -u AWS -p$(aws ecr get-login-password --region eu-central-1) $ECR_URI
+      - docker login -u AWS -p$(aws ecr-public get-login-password --region eu-central-1) $ECR_URI
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
   build:
