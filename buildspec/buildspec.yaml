@@ -1,6 +1,10 @@
 version: 0.2
 
 phases:
+  install:
+    commands:
+      - curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get-helm-3 | bash
+      - export PATH=$PATH:/usr/local/bin
   pre_build:
     commands:
       - ECR_URI=public.ecr.aws/b0h3o2a4/tamedia
