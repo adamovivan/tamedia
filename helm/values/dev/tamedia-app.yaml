@@ -9,14 +9,14 @@ service:
 
 ingress:
   hosts:
-    - host: dev.app.tamedia.k8s-cluster.com
+    - host: app.tamedia.k8s-cluster.com
       paths:
         - path: /
           pathType: Prefix
   tls:
     - secretName: tamedia-cert
       hosts:
-        - dev.app.tamedia.k8s-cluster.com
+        - app.tamedia.k8s-cluster.com
 
 resources:
    limits:
