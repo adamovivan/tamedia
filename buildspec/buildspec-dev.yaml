@@ -7,16 +7,18 @@ phases:
       - export PATH=$PATH:/usr/local/bin
   pre_build:
     commands:
+      - aws eks update-kubeconfig --name tamedia
       - ECR_URI=public.ecr.aws/b0h3o2a4/tamedia
       - docker login -u AWS -p$(aws ecr-public get-login-password --region us-east-1) $ECR_URI
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-      - IMAGE_TAG=$(cat helm/tamedia-app/Chart.yaml | grep appVersion | awk '{ print $2 }' | tr -d "'\"")
+      - IMAGE_TAG=$(cat helm/charts/tamedia-app/Chart.yaml | grep appVersion | awk '{ print $2 }' | tr -d "'\"")
   build:
     commands:
       - docker build -f Dockerfile -t $ECR_URI:$COMMIT_HASH -t $ECR_URI:$IMAGE_TAG -t $ECR_URI:latest .
-      - helm package helm/tamedia-app --version $IMAGE_TAG
+      - helm package helm/charts/tamedia-app --version $IMAGE_TAG
   post_build:
     commands:
       - docker push $ECR_URI:$COMMIT_HASH
       - docker push $ECR_URI:$IMAGE_TAG
       - docker push $ECR_URI:latest
+      - helm upgrade --install tamedia-app helm/charts/tamedia-app -f values/dev/tamedia-app.yaml --namespace tamedia --timeout 1500s
