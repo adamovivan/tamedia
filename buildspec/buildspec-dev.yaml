@@ -21,4 +21,4 @@ phases:
       - docker push $ECR_URI:$COMMIT_HASH
       - docker push $ECR_URI:$IMAGE_TAG
       - docker push $ECR_URI:latest
-      - helm upgrade --install tamedia-app helm/charts/tamedia-app -f values/dev/tamedia-app.yaml --namespace tamedia --timeout 1500s
+      - helm upgrade --install tamedia-app helm/charts/tamedia-app -f helm/values/dev/tamedia-app.yaml --namespace tamedia --timeout 1500s
