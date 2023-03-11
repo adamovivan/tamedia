@@ -1,0 +1,38 @@
+replicaCount: 1
+
+image:
+  repository: public.ecr.aws/b0h3o2a4/tamedia
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+podAnnotations: {}
+
+resources:
+   limits:
+     cpu: 100m
+     memory: 128Mi
+   requests:
+     cpu: 50m
+     memory: 128Mi
+
+ingress:
+  enabled: true
+  annotations:
+     kubernetes.io/ingress.class: nginx
+     cert-manager.io/cluster-issuer: letsencrypt-staging
+  hosts:
+    - host: app.tamedia.k8s-cluster.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: tamedia-cert
+      hosts:
+        - app.tamedia.k8s-cluster.com
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 50
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
