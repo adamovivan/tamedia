@@ -19,7 +19,7 @@ ingress:
   enabled: true
   annotations:
      kubernetes.io/ingress.class: nginx
-     cert-manager.io/cluster-issuer: letsencrypt-staging
+     cert-manager.io/cluster-issuer: letsencrypt-production
   hosts:
     - host: app.tamedia.k8s-cluster.com
       paths:
